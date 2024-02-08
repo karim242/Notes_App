@@ -1,90 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:notes_app/constant.dart';
+import 'package:notes_app/cubits/add_notes_cubit.dart';
 import 'package:notes_app/views/widgets/custom_btn.dart';
 import 'package:notes_app/views/widgets/custom_text_form_field.dart';
+
+import 'form_add_note_btm_sheet.dart';
 
 class AddNoteBottomSheet extends StatelessWidget {
   const AddNoteBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SingleChildScrollView(
-        child: FormAddNoteBtmsheet(),
-      ),
-    );
-  }
-}
-
-class FormAddNoteBtmsheet extends StatefulWidget {
-  const FormAddNoteBtmsheet({
-    super.key,
-  });
-
-  @override
-  State<FormAddNoteBtmsheet> createState() => _FormAddNoteBtmsheetState();
-}
-
-class _FormAddNoteBtmsheetState extends State<FormAddNoteBtmsheet> {
-  final _formKey = GlobalKey<FormState>();
-  AutovalidateMode _autoValidateMode = AutovalidateMode.disabled;
-
-  String? title, subTitle;
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      autovalidateMode: _autoValidateMode,
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 32,
-          ),
-          CustomTextFormField(
-            hintText: "title",
-            hintcolor: kprimaryColor,
-            onSaved: (value) {
-              title = value;
-            },
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return 'Please enter a title';
-              }
-            },
-          ),
-          const SizedBox(
-            height: 32,
-          ),
-          CustomTextFormField(
-              maxLines: 4,
-              hintText: "Content",
-              hintcolor: kprimaryColor,
-              onSaved: (value) {
-                subTitle = value;
-              },
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Please enter a Content';
-                }
-              }),
-          const SizedBox(
-            height: 64,
-          ),
-          CustomButton(
-            onTap: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-              } else {
-                _autoValidateMode = AutovalidateMode.always;
-                setState(() {});
-              }
-            },
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-        ],
+        child: BlocConsumer<AddNoteCubit, AddNoteState>(
+          listener: (context, state) {
+            if (state is AddNoteFailure) {
+              Fluttertoast.showToast(
+                msg: " An  error occurred!",
+              );
+            }
+            if (state is AddNoteSuccess) {
+              Navigator.pop(context);
+              Fluttertoast.showToast(
+                msg: " Done !",
+              );
+            }
+          },
+          builder: (context, state) {
+            return ModalProgressHUD(
+                inAsyncCall: state is AddNoteLoading ? true : false,
+                child: const FormAddNoteBtmsheet());
+          },
+        ),
       ),
     );
   }
