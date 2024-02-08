@@ -15,7 +15,8 @@ class CustomTextFormField extends StatelessWidget {
     this.textInputAction,
     this.obscureText = false,
     this.onFieldSubmitted,
-    this.maxLines
+    this.maxLines,
+    this.onSaved,
   });
 
   TextEditingController? controller;
@@ -31,6 +32,7 @@ class CustomTextFormField extends StatelessWidget {
   int? maxLines;
   String? Function(String?)? validator;
   Function(String)? onFieldSubmitted;
+  void Function(String?)? onSaved; 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -42,6 +44,8 @@ class CustomTextFormField extends StatelessWidget {
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       validator: validator,
+onSaved: onSaved,
+      
       onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
           hintText: hintText,
