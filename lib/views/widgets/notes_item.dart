@@ -10,6 +10,8 @@ class NotesItems extends StatelessWidget {
   final NoteModel noteModel;
   @override
   Widget build(BuildContext context) {
+    NotesCubit cubit = BlocProvider.of<NotesCubit>(context);
+
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -52,7 +54,8 @@ class NotesItems extends StatelessWidget {
               ),
               onPressed: () {
                 noteModel.delete();
-                BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+                cubit.fetchAllNotes();
+                cubit.toEmitIntial();
 
                 Fluttertoast.showToast(
                   msg: " Deleted  successfully!",
