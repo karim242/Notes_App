@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_notes_view.dart';
 
@@ -12,7 +14,9 @@ class NotesItems extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return const EditNotesView();
+          return EditNotesView(
+            noteModel: noteModel,
+          );
         }),
       ),
       child: Container(
@@ -48,6 +52,7 @@ class NotesItems extends StatelessWidget {
               ),
               onPressed: () {
                 noteModel.delete();
+                BlocProvider.of<NotesCubit>(context).fetchAllNotes();
 
                 Fluttertoast.showToast(
                   msg: " Deleted  successfully!",

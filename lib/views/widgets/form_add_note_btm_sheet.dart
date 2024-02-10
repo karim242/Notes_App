@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:notes_app/constant.dart';
 import 'package:notes_app/cubits/add_notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
+import 'package:notes_app/views/widgets/colors_item.dart';
 import 'package:notes_app/views/widgets/custom_btn.dart';
 import 'package:notes_app/views/widgets/custom_text_form_field.dart';
 
@@ -64,7 +65,11 @@ class _FormAddNoteBtmsheetState extends State<FormAddNoteBtmsheet> {
                 }
               }),
           const SizedBox(
-            height: 64,
+            height: 20,
+          ),
+          const ColorsListView(),
+          const SizedBox(
+            height: 45,
           ),
           BlocBuilder<AddNoteCubit, AddNoteState>(
             builder: (context, state) {
