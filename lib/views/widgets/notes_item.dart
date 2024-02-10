@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/edit_notes_view.dart';
 
 class NotesItems extends StatelessWidget {
-  const NotesItems({super.key});
-
+  const NotesItems({super.key, required this.noteModel});
+  final NoteModel noteModel;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -15,15 +17,15 @@ class NotesItems extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xffFFCC80),
+          color: Color(noteModel.color),
           borderRadius: BorderRadius.circular(16),
         ),
         padding: const EdgeInsets.only(top: 24, bottom: 24, left: 16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
           ListTile(
-            title: const Text(
-              'Flutter Tips',
-              style: TextStyle(
+            title: Text(
+              noteModel.title,
+              style: const TextStyle(
                 fontSize: 26,
                 color: Colors.black,
               ),
@@ -31,7 +33,7 @@ class NotesItems extends StatelessWidget {
             subtitle: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Text(
-                "Build your career with tharwat samy",
+                noteModel.subTitle,
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.black.withOpacity(.4),
@@ -44,13 +46,19 @@ class NotesItems extends StatelessWidget {
                 color: Colors.black,
                 size: 30,
               ),
-              onPressed: () {},
+              onPressed: () {
+                noteModel.delete();
+
+                Fluttertoast.showToast(
+                  msg: " Deleted  successfully!",
+                );
+              },
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Text(
-              "May 21,2022",
+              noteModel.date,
               style: TextStyle(
                 color: Colors.black.withOpacity(.4),
               ),
