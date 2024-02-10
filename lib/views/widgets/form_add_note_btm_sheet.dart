@@ -1,6 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/constant.dart';
+import 'package:notes_app/cubits/add_notes_cubit.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/widgets/custom_btn.dart';
 import 'package:notes_app/views/widgets/custom_text_form_field.dart';
 
@@ -20,6 +22,7 @@ class _FormAddNoteBtmsheetState extends State<FormAddNoteBtmsheet> {
   String? title, subTitle;
   @override
   Widget build(BuildContext context) {
+    final addNoteCubit = BlocProvider.of<AddNoteCubit>(context);
     return Form(
       key: _formKey,
       autovalidateMode: _autoValidateMode,
@@ -37,6 +40,8 @@ class _FormAddNoteBtmsheetState extends State<FormAddNoteBtmsheet> {
             validator: (value) {
               if (value?.isEmpty ?? true) {
                 return 'Please enter a title';
+              } else {
+                return null;
               }
             },
           ),
@@ -53,19 +58,33 @@ class _FormAddNoteBtmsheetState extends State<FormAddNoteBtmsheet> {
               validator: (value) {
                 if (value?.isEmpty ?? true) {
                   return 'Please enter a Content';
+                } else {
+                  return null;
                 }
               }),
           const SizedBox(
             height: 64,
           ),
-          CustomButton(
-            onTap: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-              } else {
-                _autoValidateMode = AutovalidateMode.always;
-                setState(() {});
-              }
+          BlocBuilder<AddNoteCubit, AddNoteState>(
+            builder: (context, state) {
+              return CustomButton(
+                isLoading: state is AddNoteLoading ? true : false,
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    var noteModel = NoteModel(
+                        title: title!,
+                        subTitle: subTitle!,
+                        date: DateTime.now().toString(),
+                        color: Colors.grey.value);
+
+                    addNoteCubit.addNotesToBox(noteModel);
+                  } else {
+                    _autoValidateMode = AutovalidateMode.always;
+                    setState(() {});
+                  }
+                },
+              );
             },
           ),
           const SizedBox(
