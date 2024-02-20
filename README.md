@@ -2,15 +2,18 @@
 
 A new Flutter project.
 
-## Getting Started
+## Notes App 
 
-This project is a starting point for a Flutter application.
+Focuses on knowledge management and archiving information
 
-A few resources to get you started if this is your first Flutter project:
+Creating notes ,Editing and formatting,
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# By using 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+-Theme
+-create Color List 
+-create bottom sheet 
+-Hive Package for saving in Local Database
+-Blocprovider
+
+
