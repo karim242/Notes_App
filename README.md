@@ -10,10 +10,10 @@ Creating notes ,Editing and formatting,
 
 # By using 
 
--Theme
--create Color List 
--create bottom sheet 
--Hive Package for saving in Local Database
--Blocprovider
+- Theme
+- create Color List 
+- create bottom sheet 
+- Hive Package for saving in Local Database
+- Blocprovider
 
 
